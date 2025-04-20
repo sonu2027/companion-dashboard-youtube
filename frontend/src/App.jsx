@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
-import Aboutvideo from './component/Aboutvideo';
+import AboutVideo from './component/AboutVideo.jsx';
 
 function App() {
   const [inputValue, setInputValue] = useState('');

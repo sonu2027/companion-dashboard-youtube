@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Aboutvideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, onDeleteReply }) {
+function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, onDeleteReply }) {
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(videoData.title);
     const [description, setDescription] = useState(videoData.description);
@@ -21,7 +21,7 @@ function Aboutvideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, 
 
     const handleReply = (commentId, replyText) => {
         console.log("commentId and text: ", commentId, replyText);
-        
+
         if (replyText.trim()) {
             onReply(commentId, replyText);
         }
@@ -196,4 +196,4 @@ function Aboutvideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, 
     );
 }
 
-export default Aboutvideo;
+export default AboutVideo;
