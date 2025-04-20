@@ -321,7 +321,8 @@ function App() {
   };
 
   const loginWithGoogle = () => {
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}/auth/callback&response_type=token&scope=https://www.googleapis.com/auth/youtube.force-ssl&prompt=consent`;
+    const redirect_uri = import.meta.env.VITE_REDIRECT_URI
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${import.meta.env.VITE_CLIENT_ID}&redirect_uri=${redirect_uri}/auth/callback&response_type=token&scope=https://www.googleapis.com/auth/youtube.force-ssl&prompt=consent`;
 
   };
 
