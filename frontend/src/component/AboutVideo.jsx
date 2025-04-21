@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, onDeleteReply }) {
     const [editMode, setEditMode] = useState(false);
@@ -6,6 +7,7 @@ function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, 
     const [description, setDescription] = useState(videoData.description);
     const [newComment, setNewComment] = useState("");
     const [replyBox, setReplyBox] = useState({ id: null, text: "" });
+    const [notes, setNotes]=useState('')
 
     const handleUpdate = () => {
         onUpdate(title, description);
@@ -29,6 +31,25 @@ function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, 
 
     return (
         <div className="bg-white rounded-lg shadow-md p-4 mt-4 max-w-3xl mx-auto">
+
+            <div className="my-6">
+                <h2 className="text-lg font-semibold mb-2">📝 Write notes</h2>
+                <textarea
+                    className="w-full border p-2 rounded mb-2"
+                    placeholder="Write your comment here..."
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                />
+                <button onClick={() => {
+                    toast.success("Note added successfully");
+                    setNotes("");
+                }}
+                    className="px-4 py-1 bg-blue-600 text-white rounded"
+                >
+                    Add notes
+                </button>
+            </div>
+
             <div className="flex flex-col sm:flex-row">
                 <div className="sm:w-1/3 mb-4 sm:mb-0 sm:mr-4">
                     <img
