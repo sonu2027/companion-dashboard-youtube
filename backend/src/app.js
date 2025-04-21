@@ -19,10 +19,4 @@ app.use(express.static("public"));
 import videoRouter from "./routes/video.route.js";
 app.use("/api", videoRouter);
 
-// import transactionRouter from "./routes/transaction.route.js";
-// app.use("/api/transaction", transactionRouter);
-
-// import budgetRouter from "./routes/budget.route.js";
-// app.use("/api/budget", budgetRouter);
-
 export default app;
