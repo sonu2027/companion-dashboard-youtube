@@ -62,3 +62,72 @@ Content-Type: application/json
 - **Description:** Deletes a reply to a comment using the reply ID.
 - **Headers:** Authorization: Bearer <access_token>
 - **Query Param:** replyId: The ID of the reply to be deleted.
+
+
+
+# Database Schema 
+
+* logs.model.js
+-----------------
+const mongoose = require('mongoose');
+
+const logSchema = new mongoose.Schema({
+  userId: {
+    type: String, // Google user ID ya email
+    required: true,
+  },
+  videoId: {
+    type: String,
+    required: true,
+  },
+  action: {
+    type: String,
+    enum: [
+      'COMMENT_ADDED',
+      'REPLY_ADDED',
+      'COMMENT_DELETED',
+      'REPLY_DELETED',
+      'TITLE_UPDATED',
+      'DESCRIPTION_UPDATED',
+      'NOTE_ADDED',
+      'NOTE_DELETED',
+      'NOTE_UPDATED'
+    ],
+    required: true,
+  },
+  details: {
+    type: Object, // Extra info (comment text, replyId, etc.)
+    default: {},
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  }
+});
+
+module.exports = mongoose.model('Log', logSchema);
+
+
+* notes.model.js
+const mongoose = require('mongoose');
+
+const noteSchema = new mongoose.Schema({
+  userId: {
+    type: String, // Google user ID ya email
+    required: true,
+  },
+  videoId: {
+    type: String,
+    required: true,
+  },
+  note: {
+    type: String,
+    required: true,
+  },
+  timestamp: {
+    type: Date,
+    default: Date.now,
+  }
+});
+
+module.exports = mongoose.model('Note', noteSchema);
