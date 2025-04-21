@@ -1,7 +1,9 @@
 import { google } from "googleapis";
+import { Log } from "../models/logs.model.js";
 
 export const deleteReply = async (req, res) => {
   const replyId = req.query.replyId;
+  const { videoId } = req.body;
 
   if (!replyId) {
     return res.status(400).json({
@@ -41,6 +43,12 @@ export const deleteReply = async (req, res) => {
 
     await youtube.comments.delete({
       id: replyId,
+    });
+
+    const deleteReply = await Log.insertOne({
+      videoId,
+      action: "REPLY_DELETED",
+      details: {replyId},
     });
 
     res.status(200).json({

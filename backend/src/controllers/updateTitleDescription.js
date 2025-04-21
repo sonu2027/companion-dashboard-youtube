@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import { Log } from "../models/logs.model.js";
 
 export const updateTitleDescription = async (req, res) => {
   const { videoId, title, description } = req.body;
@@ -51,6 +52,18 @@ export const updateTitleDescription = async (req, res) => {
       },
     });
     console.log(`Video ${videoId} updated successfully`);
+
+    const titleDescLog = await Log.insertOne({
+      videoId: videoId,
+      action: "TITLE_AND_DESC_UPDATED",
+      details: {
+        success: true,
+        videoId: videoId,
+        title: response.data.snippet.title,
+        description: response.data.snippet.description,
+        thumbnail: response.data.snippet.thumbnails?.high?.url,
+      },
+    });
 
     return res.status(200).json({
       success: true,

@@ -63,71 +63,71 @@ Content-Type: application/json
 - **Headers:** Authorization: Bearer <access_token>
 - **Query Param:** replyId: The ID of the reply to be deleted.
 
+### 🔍 `POST  https://companion-dashboard-youtube.vercel.app/api/notes`
+- **Description:** Add notes for a video.
+- **Headers:** "Content-Type": "application/json",
+- **Body:** { videoId: videoData.id, notes }
+
+### Important points for event logs
+For every API call like deleting a comment, replying to a comment, posting a comment, or updating the video title and description, I am storing an event log in the database. This helps keep track of all user actions.
 
 
 # Database Schema 
 
 * logs.model.js
 -----------------
-const mongoose = require('mongoose');
+import mongoose, { Schema } from "mongoose";
 
-const logSchema = new mongoose.Schema({
-  userId: {
-    type: String, // Google user ID ya email
-    required: true,
+const logSchema = new Schema(
+  {
+    videoId: {
+      type: String,
+      required: true,
+    },
+    action: {
+      type: String,
+      enum: [
+        "COMMENT_ADDED",
+        "REPLY_ADDED",
+        "COMMENT_DELETED",
+        "REPLY_DELETED",
+        "TITLE_AND_DESC_UPDATED",
+        "NOTE_ADDED",
+        "NOTE_DELETED",
+        "NOTE_UPDATED",
+      ],
+      required: true,
+    },
+    details: {
+      type: Object, 
+      default: {},
+    },
   },
-  videoId: {
-    type: String,
-    required: true,
-  },
-  action: {
-    type: String,
-    enum: [
-      'COMMENT_ADDED',
-      'REPLY_ADDED',
-      'COMMENT_DELETED',
-      'REPLY_DELETED',
-      'TITLE_UPDATED',
-      'DESCRIPTION_UPDATED',
-      'NOTE_ADDED',
-      'NOTE_DELETED',
-      'NOTE_UPDATED'
-    ],
-    required: true,
-  },
-  details: {
-    type: Object, // Extra info (comment text, replyId, etc.)
-    default: {},
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
+  {
+    timestamps: true,
   }
-});
+);
 
-module.exports = mongoose.model('Log', logSchema);
+export const Log = mongoose.model("Log", logSchema);
 
 
 * notes.model.js
-const mongoose = require('mongoose');
+import mongoose, { Schema } from "mongoose";
 
-const noteSchema = new mongoose.Schema({
-  userId: {
-    type: String, // Google user ID ya email
-    required: true,
+const noteSchema = new Schema(
+  {
+    videoId: {
+      type: String,
+      required: true,
+    },
+    note: {
+      type: String,
+      required: true,
+    },
   },
-  videoId: {
-    type: String,
-    required: true,
-  },
-  note: {
-    type: String,
-    required: true,
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
+  {
+    timestamps: true,
   }
-});
+);
 
-module.exports = mongoose.model('Note', noteSchema);
+export const Note = mongoose.model("Note", noteSchema);

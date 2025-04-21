@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, onDeleteReply }) {
+
+    console.log("videoData: ", videoData);
+
     const [editMode, setEditMode] = useState(false);
     const [title, setTitle] = useState(videoData.title);
     const [description, setDescription] = useState(videoData.description);
     const [newComment, setNewComment] = useState("");
     const [replyBox, setReplyBox] = useState({ id: null, text: "" });
-    const [notes, setNotes]=useState('')
+    const [notes, setNotes] = useState('')
 
     const handleUpdate = () => {
         onUpdate(title, description);
@@ -29,6 +32,27 @@ function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, 
         }
     };
 
+    const handleNote = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/notes`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ videoId: videoData.id, notes }),
+            });
+            if (response.ok) {
+                toast.success("Note added successfully");
+                setNotes("");
+            } else {
+                toast.error("Failed to add note");
+            }
+        } catch (error) {
+            console.error("Error adding note:", error);
+            toast.error("Failed to add note");
+        }
+    }
+
     return (
         <div className="bg-white rounded-lg shadow-md p-4 mt-4 max-w-3xl mx-auto">
 
@@ -40,10 +64,7 @@ function AboutVideo({ videoData, onUpdate, onComment, onReply, onDeleteComment, 
                     value={notes}
                     onChange={(e) => setNotes(e.target.value)}
                 />
-                <button onClick={() => {
-                    toast.success("Note added successfully");
-                    setNotes("");
-                }}
+                <button onClick={handleNote}
                     className="px-4 py-1 bg-blue-600 text-white rounded"
                 >
                     Add notes

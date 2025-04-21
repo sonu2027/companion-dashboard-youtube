@@ -1,4 +1,5 @@
 import { google } from "googleapis";
+import {Log} from "../models/logs.model.js";
 
 export const postComment = async (req, res) => {
   const { videoId, text } = req.body;
@@ -63,6 +64,12 @@ export const postComment = async (req, res) => {
       likeCount: newComment.likeCount,
       isOwner: true,
     };
+
+    const commentLog = await Log.insertOne({
+      videoId: videoId,
+      action: "COMMENT_ADDED",
+      details: commentData,
+    });
 
     return res.status(201).json({
       success: true,

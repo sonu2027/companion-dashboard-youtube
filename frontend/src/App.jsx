@@ -185,6 +185,7 @@ function App() {
         {
           commentId,
           text: replyText,
+          videoId: videoData?.id,
         },
         {
           headers: {
@@ -252,11 +253,15 @@ function App() {
       const response = await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/video/delete/comment?commentId=${commentId}`,
         {
+          data: {
+            videoId: videoData?.id, // yeh req.body me jayega
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
 
       if (!response.data?.success) {
         throw new Error("Failed to delete comment");
@@ -295,11 +300,15 @@ function App() {
       const response = await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/video/delete/reply?replyId=${replyId}`,
         {
+          data: {
+            videoId: videoData?.id, // This will go in req.body
+          },
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
 
       if (!response.data?.success) {
         throw new Error("Failed to delete reply");

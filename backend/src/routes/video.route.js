@@ -5,6 +5,7 @@ import { postComment } from "../controllers/postComment.js";
 import { deleteComment } from "../controllers/deleteComment.js";
 import { postReply } from "../controllers/postReply.js";
 import { deleteReply } from "../controllers/deleteReply.js";
+import {addNotes} from "../controllers/addNotes.js";
 
 const router = Router();
 
@@ -14,9 +15,6 @@ router.route("/video/comment").post(postComment);
 router.route("/video/delete/comment").delete(deleteComment);
 router.route("/video/reply").post(postReply);
 router.route("/video/delete/reply").delete(deleteReply);
-// router.route("/login").post(loginUser);
-// router.route("/sendemailverificationotp").post(sendEmailVerificationOTP);
-// router.route("/updateincome").put(verifyToken, updateIncome);
-// router.route("/getincome").get(verifyToken, getIncome);
+router.route("/notes").post(addNotes);
 
 export default router;

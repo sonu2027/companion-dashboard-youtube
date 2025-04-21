@@ -1,10 +1,10 @@
 import { google } from "googleapis";
+import {Log} from "../models/logs.model.js";
 
 export const postReply = async (req, res) => {
-  const { commentId, text } = req.body;
+  const { commentId, text, videoId } = req.body;
 
-  console.log("commentId, text:", commentId, text); 
-  
+  console.log("commentId, text, videoId:", commentId, text, videoId);
 
   if (!commentId || !text) {
     return res.status(400).json({
@@ -59,7 +59,14 @@ export const postReply = async (req, res) => {
       publishedAt: response.data.snippet.publishedAt,
       likeCount: response.data.snippet.likeCount,
       isOwner: true,
+      commentId
     };
+
+    const replyLog = await Log.insertOne({
+      videoId: videoId,
+      action: "REPLY_ADDED",
+      details: replyData,
+    });
 
     res.status(201).json({
       success: true,

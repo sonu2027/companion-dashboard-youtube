@@ -1,22 +1,19 @@
-import mongoose from "mongoose"
+import mongoose, { Schema } from "mongoose";
 
-const noteSchema = new mongoose.Schema({
-  userId: {
-    type: String, // Google user ID ya email
-    required: true,
+const noteSchema = new Schema(
+  {
+    videoId: {
+      type: String,
+      required: true,
+    },
+    note: {
+      type: String,
+      required: true,
+    },
   },
-  videoId: {
-    type: String,
-    required: true,
-  },
-  note: {
-    type: String,
-    required: true,
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
+  {
+    timestamps: true,
   }
-});
+);
 
-module.exports = mongoose.model('Note', noteSchema);
+export const Note = mongoose.model("Note", noteSchema);
