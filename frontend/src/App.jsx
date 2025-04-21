@@ -356,7 +356,7 @@ function App() {
 
       {videoData && (
         <div className="flex justify-center">
-          <Aboutvideo
+          <AboutVideo
             videoData={videoData}
             onUpdate={onUpdate}
             onReply={onReply}
